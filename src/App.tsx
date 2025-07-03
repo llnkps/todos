@@ -8,7 +8,6 @@ import type { Todo } from './types/Todo';
 
 function App() {
 	const [todos, setTodos] = useState<Todo[]>([
-		// Можете добавить начальные данные для тестирования
 		{
 			id: '1',
 			title: 'Первая заметка',
@@ -29,8 +28,10 @@ function App() {
 		setTodos(prev => [...prev, todoWithId]);
 	};
 
-	const handleEdit = (id: string) => {
-		console.log('Edit todo:', id);
+	const handleEdit = (id: string, updated: Partial<Todo>) => {
+		setTodos(prev =>
+			prev.map(todo => (todo.id === id ? { ...todo, ...updated } : todo))
+		);
 	};
 
 	const handleDelete = (id: string) => {

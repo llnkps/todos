@@ -22,6 +22,12 @@ export const TodosList = ({ todos, onEdit, onDelete }: TodosListProps) => {
 					</li>
 				))}
 			</ul>
+			{todos.length > 0 && (
+				<div className='text-sm text-gray-400 mt-4'>
+					Notes counter:{' '}
+					<span className='text-sm text-secondary'>{todos.length}</span>
+				</div>
+			)}
 		</div>
 	);
 };

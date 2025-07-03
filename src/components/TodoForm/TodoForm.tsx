@@ -8,14 +8,19 @@ interface TodoFormProps {
 export const TodoForm = ({ onAddTodo }: TodoFormProps) => {
 	const [title, setTitle] = useState<string>('');
 	const [tags, setTags] = useState<string>('');
+	const [error, setError] = useState<string>('');
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 
+		if (!title.trim()) {
+			setError('Please fill title');
+			return;
+		}
+
 		const todo = {
 			title,
 			tags: tags.length ? tags.split(',') : [],
-			id: Date.now().toString(),
 		};
 		onAddTodo(todo);
 
