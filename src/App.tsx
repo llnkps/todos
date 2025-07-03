@@ -3,22 +3,27 @@ import { TodosList } from './components/TodosList/TodosList';
 
 import './App.css';
 import { TodoForm } from './components/TodoForm/TodoForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Todo } from './types/Todo';
 
+const LOCAL_STORAGE_KEY = 'todos';
+
+const loadTodosFromStorage = (): Todo[] => {
+	try {
+		const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+		if (saved && saved !== 'undefined') {
+			return JSON.parse(saved);
+		}
+	} catch (error) {
+		console.error('Ошибка загрузки todos из localStorage:', error);
+	}
+	return [];
+};
+
 function App() {
-	const [todos, setTodos] = useState<Todo[]>([
-		{
-			id: '1',
-			title: 'Первая заметка',
-			tags: ['важное', 'работа'],
-		},
-		{
-			id: '2',
-			title: 'Вторая заметка',
-			tags: ['личное'],
-		},
-	]);
+	const [todos, setTodos] = useState<Todo[]>(() => {
+		return loadTodosFromStorage();
+	});
 
 	const addTodo = (newTodo: Omit<Todo, 'id'>) => {
 		const todoWithId: Todo = {
@@ -37,6 +42,14 @@ function App() {
 	const handleDelete = (id: string) => {
 		setTodos(prev => prev.filter(todo => todo.id !== id));
 	};
+
+	useEffect(() => {
+		try {
+			localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
+		} catch (error) {
+			console.error('Ошибка сохранения todos в localStorage:', error);
+		}
+	}, [todos]);
 
 	return (
 		<div className='min-h-screen bg-gray-100'>

@@ -26,6 +26,7 @@ export const TodoForm = ({ onAddTodo }: TodoFormProps) => {
 
 		setTitle('');
 		setTags('');
+		setError('');
 	};
 	const inputStyles = 'border-2 rounded-xl border-primary p-2';
 
@@ -35,7 +36,7 @@ export const TodoForm = ({ onAddTodo }: TodoFormProps) => {
 				<input
 					type='text'
 					value={title}
-					placeholder='Add a note'
+					placeholder='Add a new todo...'
 					onChange={e => {
 						setTitle(e.target.value);
 					}}
@@ -51,6 +52,7 @@ export const TodoForm = ({ onAddTodo }: TodoFormProps) => {
 					className={inputStyles}
 				/>
 			</div>
+			{error && <p className='text-red-500 text-sm mt-1'>{error}</p>}
 			<button
 				type='submit'
 				onClick={handleSubmit}
