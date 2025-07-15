@@ -1,10 +1,12 @@
+import { useEffect, useState } from 'react';
+
+import type { Todo } from './types/Todo';
+
 import { Header } from './components/Header/Header';
+import { TodoForm } from './components/TodoForm/TodoForm';
 import { TodosList } from './components/TodosList/TodosList';
 
 import './App.css';
-import { TodoForm } from './components/TodoForm/TodoForm';
-import { useEffect, useState } from 'react';
-import type { Todo } from './types/Todo';
 
 const LOCAL_STORAGE_KEY = 'todos';
 
@@ -56,7 +58,6 @@ function App() {
 			<div className='max-w-4xl mx-auto px-8 py-8 flex flex-col gap-8'>
 				<Header />
 				<TodoForm onAddTodo={addTodo} />
-				<h1 className='text-primary underline'>Hello World</h1>
 				<TodosList todos={todos} onEdit={handleEdit} onDelete={handleDelete} />
 			</div>
 		</div>

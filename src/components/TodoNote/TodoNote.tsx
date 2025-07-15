@@ -2,6 +2,7 @@ import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import type { TodoItemProps } from '../../types/components';
 import { Modal } from '../Modal/Modal';
 import { useState } from 'react';
+import { Tag } from '../Tag/Tag';
 
 export const TodoNote = ({ todo, onEdit, onDelete }: TodoItemProps) => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -103,12 +104,7 @@ export const TodoNote = ({ todo, onEdit, onDelete }: TodoItemProps) => {
 				</div>
 				<div className='flex gap-2'>
 					{todo.tags.map((tag, index) => (
-						<p
-							key={index}
-							className='text-sm text-white mb-0.5 px-3 py-1.5 bg-primary rounded-xl'
-						>
-							{tag}
-						</p>
+						<Tag key={index} tag={tag} />
 					))}
 				</div>
 			</div>
