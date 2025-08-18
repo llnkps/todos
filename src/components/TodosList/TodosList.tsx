@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { TodoNote } from '../TodoNote/TodoNote';
 import { Search } from '../Search/Search';
@@ -8,6 +8,8 @@ import { TagsList } from '../TagsList/TagsList';
 
 export const TodosList = ({ todos, onEdit, onDelete }: TodosListProps) => {
 	const [searchQuery, setSearchQuery] = useState('');
+	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+
 	const filteredNotes = todos.filter(
 		todo =>
 			todo.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -15,6 +17,12 @@ export const TodosList = ({ todos, onEdit, onDelete }: TodosListProps) => {
 				tag.toLowerCase().includes(searchQuery.toLowerCase())
 			)
 	);
+
+	const sortedNotes = [...filteredNotes].sort((a, b) => {
+		return sortOrder === 'asc'
+			? a.createdAt - b.createdAt
+			: b.createdAt - a.createdAt;
+	});
 
 	const uniqueTags = useMemo(
 		() => [
@@ -50,8 +58,16 @@ export const TodosList = ({ todos, onEdit, onDelete }: TodosListProps) => {
 			{uniqueTags.length > 0 && (
 				<TagsList tags={uniqueTags} onTagClick={setSearchQuery} />
 			)}
+
+			<button
+				onClick={() => setSortOrder(prev => (prev === 'asc' ? 'desc' : 'asc'))}
+				className='text-sm text-gray-500 underline hover:text-black transition'
+			>
+				Sort: {sortOrder === 'asc' ? 'Order first' : 'Newest first'}
+			</button>
+
 			<ul className='mt-4'>
-				{filteredNotes.map(todo => (
+				{sortedNotes.map(todo => (
 					<li key={todo.id}>
 						<TodoNote todo={todo} onEdit={onEdit} onDelete={onDelete} />
 					</li>

@@ -21,6 +21,7 @@ export const TodoForm = ({ onAddTodo }: TodoFormProps) => {
 		const todo = {
 			title,
 			tags: tags.length ? tags.split(',') : [],
+			createdAt: Date.now(),
 		};
 		onAddTodo(todo);
 
